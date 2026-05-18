@@ -5,7 +5,13 @@ interface PageParams {
 }
 
 function main(): void {
-    let names: string[] = ['Camila', 'Tatiana', 'Roberto', 'Mariana', 'Felipe', 'Cláudia', 'Juliana', 
+    let names: string[] = ['Camila',
+'Tatiana',
+'Roberto',
+'Mariana',
+'Felipe',
+'Cláudia',
+'Juliana', 
 'Gustavo',
 'Roana',
 'Beatriz',
