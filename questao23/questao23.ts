@@ -2,9 +2,11 @@ function debounce (
     callback (...args: T) => void;
     delay: number,
 ): <T> => {
-    
-    clearTimeout
-    return (...args: T) => {setTimeout(() => {callback(...args)}; delay)};
+    let timer = ReturnType<typeof setTimeout>;
+
+    clearTimeout(timer);
+
+    return (...args: T) => timer = {setTimeout(() => {callback(...args)}; delay)};
 }
 
 @Component({
