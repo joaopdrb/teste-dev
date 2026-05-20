@@ -1,49 +1,38 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { response } from 'express';
 
 bootstrapApplication(App, appConfig)
   .catch((err) => console.error(err));
 
   @Injectable()
-  class PesquisaPessoa {
-    pessoas: string[] = [];
+  class PokemonService {
+    searchTerm: string = '';;
+    url = `https://pokeapi.co/api/v2/pokemon/${this.searchTerm}`;
 
-    constructor(nomes: string[]) {
-
-      for (let i = 0; i < nomes.length; i++) {
-            this.pessoas[i] = nomes[i];
-
-        }
-    }
-
-    buscarPessoa(nome: string): Observable<string>{
-        for (let i = 0; i < this.pessoas.length; i++) {
-            if (pessoas[i].includes(nome)) {
-                return pessoas[i];
-            };
-
-        }
-    }
+    getPokemon(): Observable<string> (subscriber =>{
+      return fetch(this.url)
+        .then(response => response.json());
+    })
   }
 
   @Component({
       selector: 'search-input',
       templateUrl: './index.html',
-      providers: [buscarPessoa]
+      providers: [PokemonService]
   })
   export class SearchInputComponent implements OnInit {
-    busca: string,
-    pessoas: string[] = ['Maria', 'Joao', 'Bruno', 'Giselle', 'Ana', 'Pedro'],
-    constructor(private pesquisaPessoa: PesquisaPessoa)
+    searchTerm: string = '';
+    constructor(private pokemonService: PokemonService) {}
 
     ngOnInit(): void{
-          const input = document.getElementsByName("search-input") as HTMLInputElement;
-
-          input.addEventListener('keydown', debounceTime(this.pesquisaPessoa.buscaPessoa, 500));
+      this.pokemonService.getPokemon().subscribe(
+        search => console.log(search)
+      );
     }
 
 
